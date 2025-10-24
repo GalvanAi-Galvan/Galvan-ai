@@ -24,7 +24,7 @@
 
         --galvan-command-bar-margin-bottom: 15px;
         --galvan-command-bar-horizontal-padding: 15px;
-        --galvan-command-bar-height-normal: 65px;
+        --galvan-command-bar-height-normal: 55px;
         --galvan-command-bar-height-expanded: 600px;
         --galvan-command-bar-border-radius: 35px;
         --galvan-command-bar-expanded-top-nav-height: 60px;
@@ -71,8 +71,9 @@
         --galvan-logo-stop-1-light: #051dce;
         --galvan-logo-stop-2-light: #001eff;
         --galvan-logo-stop-3-light: #00ff00a8;
+        --galvan-logo-glow-color-dark: #60a5fa00;
         --galvan-wave-color-light: rgba(59, 131, 246, 0.193);
-        --galvan-logo-blur-grad-light: radial-gradient(circle at 20% 80%, hsla(177, 100%, 50%, 0.647), transparent 45%), radial-gradient(circle at 80% 30%, hsl(113, 100%, 50%), transparent 45%);
+        --galvan-logo-blur-grad-light: radial-gradient(circle at 20% 80%, hsl(112, 100%, 50%), transparent 45%), radial-gradient(circle at 80% 30%, hsl(224, 100%, 50%), transparent 45%);
         --galvan-greeting-grad-light: linear-gradient(120deg, #1D4ED8, #3B82F6);
 
         /* [NEW] Galvan Default Palette (Dark) */
@@ -94,7 +95,7 @@
         --galvan-logo-stop-3-dark: #34d334;
         --galvan-logo-glow-color-dark: #60A5FA;
         --galvan-wave-color-dark: rgba(96, 165, 250, 0.133);
-       --galvan-logo-blur-grad-dark:  radial-gradient(circle at 20% 80%, hsla(177, 99%, 40%, 0.811), transparent 45%), radial-gradient(circle at 80% 30%, hsla(113, 100%, 50%, 0.712), transparent 45%);
+       --galvan-logo-blur-grad-dark:  radial-gradient(circle at 20% 80%, hsla(101, 100%, 50%, 0.774), transparent 45%), radial-gradient(circle at 80% 30%, hsla(205, 100%, 50%, 0.712), transparent 45%);
         --galvan-greeting-grad-dark: linear-gradient(120deg, #1D4ED8, #3B82F6);
         /* Base Theme Colors - Light Mode (Can be overridden by palettes) */
         --app-body-bg-light: var(--galvan-body-bg-light);
@@ -684,13 +685,14 @@ body.hide-suggestions .galvan-suggestions-wrapper {
 /* Main container for the suggestion list with liquid glass */
 .galvan-suggestions {
     width: 100%;
-    max-width: 270px;
+    max-width: 250px;
     margin: 0 auto;
+    background: var(--current-bot-msg-bg);
     flex-grow: 1;
     overflow-y: auto;
     padding: 20px 20px 20px;
     border-top: 2px solid rgb(255 255 255 / 40%);
-    border-radius: 40px;
+    border-radius: 30px 30px 0 0;
     scrollbar-width: none;
     align-items: center;
     -ms-overflow-style: none;
@@ -723,10 +725,10 @@ body.hide-suggestions .galvan-suggestions-wrapper {
     display: flex;
     align-items: center;
     width: 100%;
-    border-top:2px solid rgb(255 255 255 / 40%);
-    background: var(--current-suggestion-grad-active);
+    border-top: 2px solid rgb(255 255 255 / 40%);
+    background: var(--current-bot-msg-bg);
     border-radius: 100px;
-    padding: 16px 20px;
+    padding: 12px 15px;
     cursor: pointer;
     transition: transform 0.25s var(--ease-out-quint), box-shadow 0.25s var(--ease-out-quint), background 0.3s var(--ease-smoother);
 }
@@ -788,6 +790,7 @@ body.hide-suggestions .galvan-suggestions-wrapper {
 .galvan-chats-container {
     flex-grow: 1;
     overflow-y: auto;
+    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 70px), transparent 100% 100%);
     -webkit-overflow-scrolling: touch;
     padding: calc(var(--safe-top) + var(--header-height) + 15px) 18px calc(20px + var(--safe-bottom) + var(--galvan-command-bar-margin-bottom) + var(--galvan-command-bar-height-normal)) 18px;
     display: flex;
@@ -815,10 +818,10 @@ body.command-bar-expanded .galvan-prompt-form {
 }
 
 /* --- END: Definitive Fix for Layout & Suggestions --- */
-
+/* [+] General Styling Enhancements */
 .galvan-prompt-container {
   /*new liquid glass implementation prompt container is here */
-  background: rgba(255, 255, 255, 0);
+  background: var(--current-bot-msg-bg);
   border-top:2px solid rgb(255 255 255 / 40%);
   backdrop-filter: blur(3px) url(#liquid-refraction);
   -webkit-backdrop-filter: blur(3px) url(#liquid-refraction);
@@ -828,16 +831,25 @@ body.command-bar-expanded .galvan-prompt-form {
   display: grid;
   place-content: center;
   z-index: 0;
-  max-width: 250px;
+  max-width: 150px;
   margin: 0 auto;
-  transition: border-radius 0.5s var(--ease-out-quint);
+  /* UPDATED: Refined transition for a smoother, more elastic feel */
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+.galvan-prompt-container:hover{
+    max-width:250px;
+    /* ADDED: A subtle shadow and lift on hover for a 3D effect */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
 .galvan-prompt-container::before {
     content: '';
-            background: rgba(255, 255, 255, 0);
-            border: 1px solid rgba(255, 255, 255, 0.055);
-            backdrop-filter: blur(3px) url(#liquid-refraction);
-            -webkit-backdrop-filter: blur(3px) url(#liquid-refraction);
+    background: rgba(255, 255, 255, 0);
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    backdrop-filter: blur(3px) url(#liquid-refraction);
+    -webkit-backdrop-filter: blur(3px) url(#liquid-refraction);
     position: absolute;
     inset: 0;
     z-index: -1;
@@ -852,8 +864,10 @@ body.command-bar-expanded .galvan-prompt-form {
     );
     opacity: 0; /* INVISIBLE BY DEFAULT */
     animation: spin 4s linear infinite paused; 
-    transition: opacity 0.4s var(--ease-smoother);
+    /* UPDATED: Smoother transition for the gradient glow */
+    transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 .galvan-prompt-wrapper {
     position: relative;
     width: 100%;
@@ -862,28 +876,33 @@ body.command-bar-expanded .galvan-prompt-form {
     backdrop-filter: blur(3px) url(#liquid-refraction);
     -webkit-backdrop-filter: blur(3px) url(#liquid-refraction);
     padding: 0px 5px;
+    height:50px;
     display: flex;
     align-items: center;
     gap: 5px;
 }
+
 .prompt-input {
-  padding: 10px 5px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0);
-  border: 2px solid rgba(255, 255, 255, 0);
-  border: none;
-  outline: none;
-  color: var(--current-text-primary);
-  font-size: 1rem;
-  border-radius: 35px; 
-  z-index: 1;
-  resize: none;
-  text-align:center;
-  order: 2;
-  flex-grow: 1;
-  transition: background-color 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.5s var(--ease-spring-gentle);
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
+    scrollbar-width: none;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0);
+    border: none;
+    outline: none;
+    color: var(--current-text-primary);
+    border-radius: 35px;
+    z-index: 1;
+    resize: none;
+    text-align: center;
+    order: 2;
+    flex-grow: 1;
+    /* UPDATED: Smooth transition for input field properties */
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 .prompt-input::placeholder { color: var(--current-text-secondary);}
+
 .galvan-prompt-wrapper .prompt-btn {
     width: 40px;
     height: 40px;
@@ -896,16 +915,31 @@ body.command-bar-expanded .galvan-prompt-form {
     z-index: 2;
     position: relative;
     border: none;
-       border-top: 2px solid rgba(255, 255, 255, 0.501);
-       background: rgba(255, 255, 255, 0.05);
-       backdrop-filter: blur(5px) url(#liquid-refraction);
-       -webkit-backdrop-filter: blur(5px) url(#liquid-refraction);
-       transition: background-color 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.5s var(--ease-spring-gentle);
+    border-top: 2px solid rgba(255, 255, 255, 0.501);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px) url(#liquid-refraction);
+    -webkit-backdrop-filter: blur(5px) url(#liquid-refraction);
+    /* UPDATED: Transition for bounce and blur effects */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* ADDED: Bounce and blur animation on button hover */
+.galvan-prompt-wrapper .prompt-btn:hover {
+    transform: scale(1.1);
+    filter: blur(0.5px);
+}
+
+.galvan-prompt-wrapper .prompt-btn:active {
+    transform: scale(0.95);
+}
+
+
 .galvan-prompt-wrapper .prompt-btn svg {
-width: 20px; height: 20px;
+    width: 20px; height: 20px;
+    /* ADDED: Smooth transition for SVG icons */
+    transition: all 0.3s ease-in-out;
  }
+
 /* [+] Add / [x] Cancel Button on the LEFT, with MORPH animation */
 #add-file-btn {
     order: 1;
@@ -914,8 +948,10 @@ width: 20px; height: 20px;
 }
 #add-file-btn .icon-add, #add-file-btn .icon-cancel-file {
     position: absolute;
-    transition: transform 0.4s var(--ease-in-out-cubic), opacity 0.4s;
+    /* UPDATED: Spring-like transition for icons */
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
 }
+
 #add-file-btn .icon-add { transform: scale(1) rotate(0); opacity: 1; }
 #add-file-btn .icon-cancel-file { transform: scale(0) rotate(-180deg); opacity: 0; }
 
@@ -924,6 +960,7 @@ width: 20px; height: 20px;
     color: white;
     transform: rotate(135deg);
 }
+
 .galvan-prompt-wrapper.file-attached #add-file-btn .icon-add { transform: scale(0) rotate(180deg); opacity: 0; }
 .galvan-prompt-wrapper.file-attached #add-file-btn .icon-cancel-file { transform: scale(1) rotate(0deg); opacity: 1; }
 
@@ -935,8 +972,10 @@ width: 20px; height: 20px;
     transform: translateX(150%);
     opacity: 0;
     pointer-events: none;
-    transition: all 0.5s var(--ease-out-quint);
+    /* UPDATED: Enhanced transition for the send button's appearance */
+    transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 .galvan-prompt-wrapper.has-text #send-btn {
     transform: translateX(0);
     opacity: 1;
@@ -944,7 +983,10 @@ width: 20px; height: 20px;
 }
 #send-btn:hover:not(:disabled) {
     filter: brightness(1.15);
+    /* ADDED: A subtle bounce on hover for the send button */
+    transform: scale(1.05);
 }
+
 #send-btn.stop-active {
     background: rgba(0, 0, 0, 0);
 }
@@ -952,12 +994,15 @@ width: 20px; height: 20px;
 #send-btn .icon-send, #send-btn .icon-stop {
     position: absolute;
     backface-visibility: hidden;
-    transition: transform 0.5s var(--ease-in-out-cubic);
+    /* UPDATED: Smoother, more defined flip animation */
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 #send-btn .icon-send { transform: rotateY(0deg); }
 #send-btn .icon-stop { transform: rotateY(180deg); }
 #send-btn.stop-active .icon-send { transform: rotateY(-180deg); }
 #send-btn.stop-active .icon-stop { transform: rotateY(0deg); }
+
 .galvan-prompt-nav-buttons {
     display: flex;
     visibility:hidden;
@@ -967,8 +1012,63 @@ width: 20px; height: 20px;
     height: 28px;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.4s var(--ease-out-quint), transform 0.4s var(--ease-out-quint), height 0.4s var(--ease-out-quint), margin-bottom 0.4s var(--ease-out-quint);
+    /* UPDATED: More fluid transition for the navigation buttons */
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     pointer-events: none;
+}
+.prompt-input {
+    /* ... your existing styles ... */
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
+    border: none;
+    outline: none;
+    color: var(--current-text-primary);
+    border-radius: 5px;
+    z-index: 1;
+    max-height:60px;
+    resize: none;
+    text-align: center;
+    order: 2;
+    flex-grow: 1;
+    
+    /* [+] MODIFICATION FOR HOVER-TO-REVEAL TEXT */
+    
+    /* 1. Make text invisible and slightly smaller by default */
+    opacity: 0;
+    transform: scale(0.98);
+    
+    /* 2. Add a smooth transition for opacity and transform */
+    transition: all 0.5s var(--ease-out-quint), opacity 0.5s, transform 0.5s;
+    
+    /* ... other text containment styles like overflow-y, scrollbar-width, etc. ... */
+    overflow-y: auto; 
+    white-space: pre-wrap; 
+    overflow-wrap: break-word; 
+    scrollbar-width: none;
+}
+
+.prompt-input::-webkit-scrollbar {
+    display: none;
+}
+
+/* 3. Make the placeholder text also invisible by default */
+.prompt-input::placeholder { 
+    color: var(--current-text-secondary);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-quint);
+}
+
+/* [+] NEW RULE: Reveal text and placeholder on container hover */
+
+/* 4. When the main container is hovered, make the input text visible */
+.galvan-prompt-container:hover .prompt-input {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 5. Also make the placeholder text visible on hover */
+.galvan-prompt-container:hover .prompt-input::placeholder {
+    opacity: 1;
 }
 /*here is the end of the prompt css and a prompt box liquid glass interface is now ready*/
 
@@ -995,26 +1095,61 @@ body.command-bar-expanded .galvan-toast-message {
     transform: translate(-50%, calc(-1 * var(--command-bar-expansion-offset)));
 }
 /*galvan command bar designing with liquid glass working on deigning and more here*/
+/* 
+  STEP 1: DEFINE THE DEFAULT (HIDDEN) STATE 
+  It starts further down, slightly smaller, narrower, and fully transparent.
+*/
 .galvan-command-bar-container {
     position: fixed;
     bottom: var(--galvan-command-bar-margin-bottom);
     left: 50%;
-    transform: translateX(-50%) translateY(calc(var(--galvan-command-bar-height-normal) + var(--galvan-command-bar-margin-bottom) + var(--safe-bottom) + 20px));
+    
+    /* Initial transform: Off-screen and scaled down */
+    transform: translateX(-50%) translateY(120%) scale(0.9);
+    
     width: calc(100% - var(--galvan-command-bar-horizontal-padding) * 1);
-    max-width: 280px;
+    max-width: 150px; /* Initial narrow width */
+    height: calc(var(--galvan-command-bar-height-normal) + var(--safe-bottom));
+    opacity: 0; /* Starts fully transparent */
+    
     z-index: 50;
-    border-radius: 50px; 
-    border-top:2px solid rgb(225 225 225 / 50%);
-    background: rgba(255, 255, 255, 0);
+    border-radius: 50px;
+    border-top: 2px solid rgb(225 225 225 / 50%);
+    background: var(--current-bot-msg-bg);
     backdrop-filter: blur(3px) url(#liquid-refraction);
     -webkit-backdrop-filter: blur(3px) url(#liquid-refraction);
-    transition: background-color 0.1s var(--ease-smoother),border-color 0.5s var(--ease-smoother),box-shadow 0.5s var(--ease-smoother),height 0.3s var(--ease-out-quint),border-radius 0.6s var(--ease-out-quint),opacity 0.4s var(--ease-out-quint),transform 0.7s var(--ease-out-quint) var(--galvan-command-bar-entry-animation-delay);
-    height: calc(var(--galvan-command-bar-height-normal) + var(--safe-bottom));
     overflow: hidden;
-    will-change: height, transform, opacity, border-radius;
     display: flex;
     flex-direction: column;
-    opacity: 0;
+
+    /* A performance hint for the browser */
+    will-change: transform, opacity, max-width;
+
+    /* 
+      THE CORE ANIMATION LOGIC:
+      We define a precise transition for each property. The bounce effect
+      comes from the custom cubic-bezier function.
+    */
+    transition: 
+        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), /* Bounce for position/scale */
+        max-width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), /* Bounce for width */
+        opacity 0.5s ease-out 0.1s, /* Simple fade-in with a slight delay */
+        border-radius 0.6s var(--ease-out-quint);
+}
+
+/* 
+  STEP 2: DEFINE THE FINAL (VISIBLE) STATE
+  This class is added via JavaScript to trigger the animation.
+*/
+.galvan-command-bar-container.is-visible {
+    /* Final on-screen position and full scale */
+    transform: translateX(-50%) translateY(0) scale(1);
+    
+    /* Final expanded width (adjust as needed) */
+    max-width: 700px;
+    
+    /* Fully visible */
+    opacity: 1;
 }
 body.app-loaded .galvan-command-bar-container {
     transform: translateX(-50%) translateY(0);
@@ -1023,8 +1158,10 @@ body.app-loaded .galvan-command-bar-container {
 .galvan-command-bar-container.expanded {
     height: calc(var(--command-bar-expanded-height) + var(--safe-bottom));
     border-radius: 30px;
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
+    border-top-left-radius: 35px;
+    background:transparent;
+    max-width:270px;
+    border-top-right-radius: 35px;
 }
 .galvan-command-bar-expanded-content-wrapper {
     opacity: 0;
@@ -1057,15 +1194,18 @@ body.app-loaded .galvan-command-bar-container {
 .galvan-command-bar-container.expanded .galvan-command-bar-content-view.active-view {
     flex-direction: column;
     opacity: 10;
+    scrollbar-width: none;
     transform: translateY(0);
     gap: 1px;
+    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 70px), transparent 100% 100%);
     background: var(--current-bot-msg-bg);
     width: 95%;
+    bottom: 5px;
     border-radius: 30px;
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     margin-left: 7px;
     border: none;
     border-bottom: 2px solid rgb(255 255 255 / 40%);
@@ -1079,7 +1219,7 @@ body.app-loaded .galvan-command-bar-container {
 }
 .galvan-command-bar {
     display: flex;
-    padding: 0px 15px calc(var(--safe-bottom) + 5px) 15px;
+    padding: 3px 3px;
     height: calc(var(--galvan-command-bar-height-normal) + var(--safe-bottom));
     transition: opacity 0.5s var(--ease-soft-spring) 0.1s, transform 0.5s var(--ease-soft-spring) 0.1s;
     flex-shrink: 0;
@@ -1144,7 +1284,7 @@ body.app-loaded .galvan-command-bar-container {
     transition: all 0.3s var(--ease-smoother);
 }
 #command-bar-settings-btn::after {
-    content: 'Settings';
+    content: '';
 }
 #theme-toggle-btn::after {
     content: 'Visibility';
@@ -1169,18 +1309,24 @@ body.app-loaded .galvan-command-bar-container {
     justify-content: space-around;
     align-items: stretch;
     position: absolute;
-    bottom: 0;
+    bottom: 15px;
+    margin-left: 55px;
+    margin-right: 55px;
+    overflow: hidden;
     left: 0;
+    max-height: 55px;
+    max-width: 160px;
     right: 0;
+    backdrop-filter: blur(2px) url(#liquid-refraction);
     height: calc(var(--command-bar-tab-bar-height) + var(--safe-bottom));
-    padding: 0px 15px calc(var(--safe-bottom) + 5px) 15px;
-    background:rgba(225,225,225,0.7);
-    border-bottom-left-radius: 28px;
-    border-bottom-right-radius: 28px;
+    background: rgba(225, 225, 225, 0.7);
+    border-bottom-left-radius: 35px;
+    border-bottom-right-radius: 35px;
     z-index: 10;
     opacity: 0;
     transform: translateY(15px);
     transition: opacity 0.4s var(--ease-out-quint), transform 0.4s var(--ease-out-quint);
+
 }
 .galvan-command-bar-expanded-top-nav .galvan-nav-btn {
     flex-grow: 1;
@@ -1188,18 +1334,6 @@ body.app-loaded .galvan-command-bar-container {
 .galvan-command-bar-expanded-top-nav .galvan-nav-btn.active {
     color: var(--current-icon-active);
     font-weight: 600;
-}
-.galvan-command-bar-expanded-top-nav .galvan-nav-btn::before {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    margin-left: 1px;
-    height: 40px;
-    width: 60px;
-    background: var(--current-bot-msg-bg);
-    border: none;
-    border-radius: 100px;
-    transform: scaleX(0);
 }
 .galvan-command-bar-expanded-top-nav .galvan-nav-btn.active::before {
     transform: scaleX(1);
@@ -1271,7 +1405,6 @@ body:not(.light-mode) .galvan-command-bar-expanded-top-nav .galvan-nav-btn.activ
     background: var(--current-bot-msg-bg);
     border-top-left-radius: calc(var(--galvan-command-bar-border-radius) - 1.5px);
     border-top-right-radius: calc(var(--galvan-command-bar-border-radius) - 1.5px);
-    border-top: 2px solid rgb(255 255 255 / 34%);
     }
 .galvan-command-bar-settings-list { gap: 0; padding-right: 15px;border:none; }
 .galvan-command-bar-setting-item {
@@ -1306,6 +1439,7 @@ body:not(.light-mode) .galvan-command-bar-expanded-top-nav .galvan-nav-btn.activ
     font-size: 1.5rem;
     font-weight: 500;
     cursor: pointer;
+    margin-bottom: 50px;
 }
 
 .galvan-setting-action-button:disabled {
@@ -1889,6 +2023,7 @@ transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 display: flex; 
 flex-direction: column; 
 gap: 12px;
+margin-bottom:50px;
 cursor: pointer; /* This makes the entire item clickable */
 }
 
@@ -2060,7 +2195,7 @@ cursor: pointer; /* This makes the entire item clickable */
     border: none;
     border-top: 2px solid rgba(225,225,225,0.5);
     justify-content: space-around;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--current-bot-msg-bg);
     backdrop-filter: blur(5px) url(#liquid-refraction);
     -webkit-backdrop-filter: blur(5px) url(#liquid-refraction);
     animation: filePreviewEnter 0.6s var(--ease-soft-spring), moveInternalGradient var(--internal-gradient-anim-speed) linear infinite;
@@ -2298,6 +2433,7 @@ cursor: pointer; /* This makes the entire item clickable */
     background: var(--current-bot-msg-bg);
     color: var(--current-text-secondary);
     border-radius: 30px;
+    margin-bottom:30px;
     padding: 30px;
     border-top: 2px solid rgb(255 255 255 / 40%);
  } /* MODIFIED: Notice style */
@@ -2497,6 +2633,7 @@ font-size: 1.5rem;
         color: var(--current-text-primary);
     }
     @keyframes spin { to { transform: rotate(-360deg); } }
+    
 
     /*liquid glass reset system ends up here*/
 
@@ -2541,8 +2678,46 @@ font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 65px;
+    margin-top: 0px;
+    height: 45px;
+    background:var(--current-bot-msg-bg);
+    border-radius: 100px;
+    border-top: 2px solid rgba(225, 225, 225, 0.5);
+}
+/*
+  =============================================================
+  CSS for the Animated "Open Notice" Button
+  =============================================================
+*/
+
+/* --- [1] Base Button Styling --- */
+.btn-open-notice {
+    background: var(--current-bot-msg-bg);
+    color: var(--current-text-secondary);
+    border: none;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    will-change: transform, box-shadow, background-color;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+    background-color 0.3s ease-out;
+}
+/* --- [3] Active (Pressed) State Animation (Push Down) --- */
+.btn-open-notice:active {
+    /* The button pushes down for instant feedback */
+    transform: translateY(0px) scale(0.98);
+    
+    /* The shadow shrinks to enhance the "pressed in" feel */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
+    /* Make the press animation feel faster and more responsive */
+    transition-duration: 0.1s;
 }
 </style>
 </head>
@@ -2632,7 +2807,7 @@ font-size: 1.5rem;
             </span>
         </button>
 
-        <textarea class="prompt-input" placeholder="Prompt me" required></textarea>
+        <textarea class="prompt-input" placeholder="Prompt" required></textarea>
         <input type="file" id="file-input" hidden accept="image/*,.txt,.pdf,.csv,.doc,.docx,.xls,.xlsx,.rtf,.ppt,.pptx,.key,.pages,.numbers,.zip">
 
         <!-- The Send/Stop button with two icons for 3D flip -->
@@ -2651,24 +2826,13 @@ font-size: 1.5rem;
 
         <div class="galvan-command-bar-container">
             <div class="galvan-command-bar">
-                 <button class="galvan-nav-btn active" id="home-btn" aria-label="Home">
-                    <span class="icon-wrapper">
-                        <ion-icon name="compass-outline"></ion-icon>
-                   
-                    </span>
-                 </button>
-                 <button class="galvan-nav-btn" id="history-btn" aria-label="Chats">
+      
+                 <button class="galvan-nav-btn" id="history-btn" aria-label="">
                     <span class="icon-wrapper">
                        <ion-icon name="sync-outline"></ion-icon> </span>
                  </button>
-                 <button class="galvan-nav-btn" id="notice-btn" aria-label="Notice">
-                    <span class="icon-wrapper">
-                       <ion-icon name="notifications-outline"></ion-icon></span>
-                </button>
-                <button id="theme-toggle-btn" class="galvan-nav-btn" aria-label="Visibility">
-                    <span class="icon-wrapper">
-                       <ion-icon name="invert-mode"></ion-icon> </span>
-                </button>
+               
+                
                 <button id="command-bar-settings-btn" class="galvan-nav-btn" aria-label="Setting">
                     <span class="icon-wrapper">
                         <ion-icon name="cog-outline" ></ion-icon>       </span>
@@ -2679,8 +2843,36 @@ font-size: 1.5rem;
                 <div class="galvan-command-bar-expanded-top-nav">
                     <!-- Cloned nav icons will be populated here by JS -->
                 </div>
+                
                 <div id="expanded-command-bar-settings-view" class="galvan-command-bar-content-view galvan-command-bar-settings-list" data-view="settings">
+                     <div class="galvan-command-bar-setting-item">
+    
+    <!-- The label on the left -->
+    <span class="setting-label">
+        <ion-icon name="compass-outline"  style="font-size:15px;"></ion-icon> 
+        Home
+    </span>
+    
+    <!-- The new animated button on the right -->
+    <button class="btn-open-notice" id="home-btn"><ion-icon name="compass-outline" style="font-size:10px"></ion-icon> Home</button>
+
+</div>
+                    <!-- [+] NEW NOTICE ITEM WITH AN "OPEN" BUTTON -->
+<div class="galvan-command-bar-setting-item">
+    
+    <!-- The label on the left -->
+    <span class="setting-label">
+        <ion-icon name="notifications-outline" style="font-size:15px;"></ion-icon> 
+        Notice
+    </span>
+    
+    <!-- The new animated button on the right -->
+    <button class="btn-open-notice" id="notice-btn"><ion-icon name="compass-outline" style="font-size:10px"></ion-icon> Open</button>
+
+</div>
+
                     <div class="galvan-command-bar-setting-item" id="blur-control-setting-item">
+                        
                         <span class="setting-label"><ion-icon name="git-commit-outline" style="font-size:15px;"></ion-icon> Blur</span>
                         <div class="galvan-slider-container">
                             <input type="range" id="setting-blur-slider" min="0" max="2" step="0.1" value="1">
@@ -2718,6 +2910,8 @@ font-size: 1.5rem;
                         <label class="galvan-switch"><input type="checkbox" id="setting-toggle-system-theme"><div class="slider"></div>
         <div class="handle"></div><span class="icon-toggle-off"></span><span class="icon-toggle-on"></span></span></label>
                     </div>
+                   
+
                     <div class="galvan-command-bar-setting-item">
                         <span class="setting-label"><ion-icon name="ellipsis-horizontal-outline" style="font-size:15px;"></ion-icon> Thoughts</span>
                         <label class="galvan-switch"><input type="checkbox" id="setting-toggle-ai-thoughts" checked><div class="slider"></div>
